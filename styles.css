@@ -35,7 +35,7 @@ button {
     font-size: large;
 }
 
-#displayScreen {
+#displayValue {
     font-size: 50px;
     width: 280px;
     display: flex;
