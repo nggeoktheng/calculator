@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    width: 400px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    margin-top: 90px;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+    padding: 20px 0;
+}
+
+button {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: large;
+}
+
+#displayScreen {
+    font-size: 50px;
+    width: 280px;
+    display: flex;
+    justify-content: right;
+    background-color: white;
+    padding: 5px 20px;
+}
