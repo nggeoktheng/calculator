@@ -12,7 +12,7 @@ body {
 
 #container {
     width: 400px;
-    height: 600px;
+    height: 650px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,11 +35,23 @@ button {
     font-size: large;
 }
 
-#displayValue {
-    font-size: 50px;
+#displayContainer {
     width: 280px;
+}
+
+#displayStatement,
+#displayValue {
     display: flex;
     justify-content: right;
     background-color: white;
     padding: 5px 20px;
+}
+
+#displayStatement {
+    margin-top: 18px;
+    font-size: 25px;
+}
+
+#displayValue {
+    font-size: 50px;
 }
