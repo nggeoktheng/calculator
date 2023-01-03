@@ -6,29 +6,19 @@ const clearEntry = document.querySelector('.clearEntry');
 const signs = document.querySelectorAll('.sign');
 const equal = document.querySelector('equal');
 
+let firstNumber = "";
+let secondNumber = "";
+let sign = "";
+
 numbers.forEach(number => number.addEventListener('click', numberInput));
 
 function numberInput(e) {
-    displayValue.innerHTML = e.target.innerText;
+    displayValue.innerHTML = e.target.innerHTML;
     displayStatement.innerHTML = displayValue.innerHTML;
-    let numberValue = Number(displayStatement.innerHTML); // not sure if necessary??
     displayStatement.style.color = "black";
 }
 
-clear.addEventListener('click', reset);
-
-function reset() {
-    displayValue.innerHTML = 0;
-    displayStatement.style.color = "white";
-}
-
-clearEntry.addEventListener('click', clearInput);
-
-function clearInput() {
-    displayValue.innerHTML = 0;
-}
-
-operatorSign = signs.forEach(sign => sign.addEventListener('click', signInput));
+signs.forEach(sign => sign.addEventListener('click', signInput));
 
 function signInput(e) {
     displayStatement.innerHTML = e.target.innerText;
@@ -72,4 +62,17 @@ function operate(operatorSign, a, b) {
     } else if (operatorSign == '÷') {
         return divide(a, b);
     }
+}
+
+clear.addEventListener('click', reset);
+
+function reset() {
+    displayValue.innerHTML = 0;
+    displayStatement.style.color = "white";
+}
+
+clearEntry.addEventListener('click', clearInput);
+
+function clearInput() {
+    displayValue.innerHTML = 0;
 }
