@@ -3,25 +3,19 @@ const displayStatement = document.getElementById('displayStatement');
 const displayValue = document.getElementById('displayValue');
 const clear = document.querySelector('.clear');
 const clearEntry = document.querySelector('.clearEntry');
-const signs = document.querySelectorAll('.sign');
-const equal = document.querySelector('equal');
-
-let firstNumber = "";
-let secondNumber = "";
-let sign = "";
+const operations = document.querySelectorAll('.operation');
+const equal = document.querySelector('.equal');
 
 numbers.forEach(number => number.addEventListener('click', numberInput));
 
 function numberInput(e) {
-    displayValue.innerHTML = e.target.innerHTML;
-    displayStatement.innerHTML = displayValue.innerHTML;
-    displayStatement.style.color = "black";
+    displayValue.innerHTML += e.target.innerHTML;
 }
 
-signs.forEach(sign => sign.addEventListener('click', signInput));
+operations.forEach(operation => operation.addEventListener('click', operationSelected));
 
-function signInput(e) {
-    displayStatement.innerHTML = e.target.innerText;
+function operationSelected(e) {
+    displayStatement.innerHTML += e.target.innerText;
 }
 
 function add(a, b) {
@@ -68,7 +62,6 @@ clear.addEventListener('click', reset);
 
 function reset() {
     displayValue.innerHTML = 0;
-    displayStatement.style.color = "white";
 }
 
 clearEntry.addEventListener('click', clearInput);

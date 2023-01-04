@@ -11,16 +11,17 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #8eb1c2;
 }
 
 #container {
-    width: 400px;
-    height: 650px;
+    width: 370px;
+    height: 560px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: black;
+    background-color: #365563;
     margin-top: 90px;
 }
 
@@ -28,34 +29,43 @@ body {
     display: flex;
     flex-direction: row;
     column-gap: 20px;
-    padding: 20px 0;
+    padding: 15px 0;
 }
 
 button {
     width: 55px;
     height: 55px;
-    border-radius: 50%;
     font-size: large;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    color: #acc8d7;
+    background-color: #6699cc;
+    transition: 0.5s ease-in-out;
 }
 
 #displayContainer {
     width: 280px;
+    margin: 10px 0;
 }
 
 #displayStatement,
 #displayValue {
     display: flex;
-    justify-content: right;
+    flex-direction: column;
+    align-items: flex-end;
     background-color: white;
-    padding: 5px 10px;
+    padding: 5px;
 }
 
 #displayStatement {
-    color: white;
-    margin-top: 18px;
     font-size: 18px;
+    height: 31px;
 }
 
 #displayValue {
     font-size: 30px;
+    height: 44px;
 }
