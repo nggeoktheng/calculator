@@ -6,16 +6,26 @@ const clearEntry = document.querySelector('.clearEntry');
 const operations = document.querySelectorAll('.operation');
 const equal = document.querySelector('.equal');
 
+let defaultValue = '0';
+
 numbers.forEach(number => number.addEventListener('click', numberInput));
 
 function numberInput(e) {
-    displayValue.innerHTML += e.target.innerHTML;
+    const numberClicked = e.target.innerText;
+    if (defaultValue === '0') {
+        defaultValue = '';
+        if (numberClicked === '.') {
+            defaultValue += '0.';
+        }
+    }
+    if (numberClicked === '.' && defaultValue.includes('.')) return;
+    defaultValue += numberClicked;
+    displayValue.innerText = defaultValue;
 }
 
 operations.forEach(operation => operation.addEventListener('click', operationSelected));
 
 function operationSelected(e) {
-    displayStatement.innerHTML += e.target.innerText;
 }
 
 function add(a, b) {
@@ -61,11 +71,13 @@ function operate(operatorSign, a, b) {
 clear.addEventListener('click', reset);
 
 function reset() {
-    displayValue.innerHTML = 0;
+    displayValue.innerText = '0';
+    defaultValue = '0';
 }
 
 clearEntry.addEventListener('click', clearInput);
 
 function clearInput() {
-    displayValue.innerHTML = 0;
+    displayValue.innerText = '0';
+    defaultValue = '0';
 }
