@@ -1,14 +1,17 @@
-const numbers = document.querySelectorAll('.number');
+const numbersBtn = document.querySelectorAll('.number');
 const displayStatement = document.getElementById('displayStatement');
 const displayValue = document.getElementById('displayValue');
-const clear = document.querySelector('.clear');
-const clearEntry = document.querySelector('.clearEntry');
-const operations = document.querySelectorAll('.operation');
-const equal = document.querySelector('.equal');
+const clearBtn = document.querySelector('.clear');
+const clearEntryBtn = document.querySelector('.clearEntry');
+const operationsBtn = document.querySelectorAll('.operation');
+const equalBtn = document.querySelector('.equal');
+const negativeBtn = document.querySelector('.negative');
 
 let defaultValue = '0';
+let firstValue = '';
+let secondValue = '';
 
-numbers.forEach(number => number.addEventListener('click', numberInput));
+numbersBtn.forEach(number => number.addEventListener('click', numberInput));
 
 function numberInput(e) {
     const numberClicked = e.target.innerText;
@@ -18,48 +21,41 @@ function numberInput(e) {
             defaultValue += '0.';
         }
     }
-    if (numberClicked === '.' && defaultValue.includes('.')) return;
+    if (numberClicked === '.' && defaultValue.includes('.')) return;    
     defaultValue += numberClicked;
     displayValue.innerText = defaultValue;
 }
 
-operations.forEach(operation => operation.addEventListener('click', operationSelected));
+negativeBtn.addEventListener('click', () => {
+    if (defaultValue === '0') {
+        defaultValue = '';
+        defaultValue = '-' + defaultValue;
+    } else if (defaultValue !== '0') {
+        let newValue = '';
+        newValue = '-' + defaultValue;
+        displayValue.innerText = newValue;
+    }
+})
+ 
+operationsBtn.forEach(operation => operation.addEventListener('click', operationSelected));
 
 function operationSelected(e) {
+    const operationClicked = e.target.innerText;
+    if (displayStatement.innerText === '' && displayValue.innerText === '0') return;
+    displayStatement.innerText = displayValue.innerText;
+    clearInput();
+    displayStatement.innerText += operationClicked;
 }
 
-function add(a, b) {
-    displayStatement.style.color = 'black';
-    displayStatement.innerHTML = `${a} + ${b}`;
-    displayValue.innerHTML = a + b;
-    return displayStatement.innerHTML;
-}
-
-function subtract(a, b) {
-    displayStatement.style.color = 'black';
-    displayStatement.innerHTML = `${a} - ${b}`;
-    displayValue.innerHTML = a - b;
-    return displayStatement.innerHTML;
-}
-
-function multiply(a, b) {
-    displayStatement.style.color = 'black';
-    displayStatement.innerHTML = `${a} × ${b}`;
-    displayValue.innerHTML = a * b;
-    return displayStatement.innerHTML;
-}
-
-function divide(a, b) {
-    displayStatement.style.color = 'black';
-    displayStatement.innerHTML = `${a} ÷ ${b}`;
-    displayValue.innerHTML = a / b;
-    return displayStatement.innerHTML;
-}
+equalBtn.addEventListener('click', (e) => {
+    const equal = e.target.innerText;
+    // operate();
+})
 
 function operate(operatorSign, a, b) {
-    if (operatorSign == '+') {
+    if (operatorSign === '+') {
         return add(a, b);
-    } else if (operatorSign == '-') {
+    } else if (operatorSign === '-') {
         return subtract(a, b);
     } else if (operatorSign == '×') {
         return multiply(a, b);
@@ -68,14 +64,43 @@ function operate(operatorSign, a, b) {
     }
 }
 
-clear.addEventListener('click', reset);
+function add(a, b) {
+    displayStatement.style.color = 'black';
+    displayStatement.innerText = `${a} + ${b}`;
+    displayValue.innerText = a + b;
+    return displayStatement.innerText;
+}
+
+function subtract(a, b) {
+    displayStatement.style.color = 'black';
+    displayStatement.innerText = `${a} - ${b}`;
+    displayValue.innerText = a - b;
+    return displayStatement.innerText;
+}
+
+function multiply(a, b) {
+    displayStatement.style.color = 'black';
+    displayStatement.innerText = `${a} × ${b}`;
+    displayValue.innerText = a * b;
+    return displayStatement.innerText;
+}
+
+function divide(a, b) {
+    displayStatement.style.color = 'black';
+    displayStatement.innerText = `${a} ÷ ${b}`;
+    displayValue.innerText = a / b;
+    return displayStatement.innerText;
+}
+
+clearBtn.addEventListener('click', reset);
 
 function reset() {
+    displayStatement.innerText = '';
     displayValue.innerText = '0';
     defaultValue = '0';
 }
 
-clearEntry.addEventListener('click', clearInput);
+clearEntryBtn.addEventListener('click', clearInput);
 
 function clearInput() {
     displayValue.innerText = '0';
