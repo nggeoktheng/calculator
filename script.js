@@ -2,14 +2,11 @@ const numbersBtn = document.querySelectorAll('.number');
 const displayStatement = document.getElementById('displayStatement');
 const displayValue = document.getElementById('displayValue');
 const clearBtn = document.querySelector('.clear');
-const clearEntryBtn = document.querySelector('.clearEntry');
+const backspaceBtn = document.querySelector('.backspace');
 const operationsBtn = document.querySelectorAll('.operation');
-const equalBtn = document.querySelector('.equal');
 const negativeBtn = document.querySelector('.negative');
 
 let defaultValue = '0';
-let firstValue = '';
-let secondValue = '';
 
 numbersBtn.forEach(number => number.addEventListener('click', numberInput));
 
@@ -39,57 +36,72 @@ negativeBtn.addEventListener('click', () => {
  
 operationsBtn.forEach(operation => operation.addEventListener('click', operationSelected));
 
-function operationSelected(e) {
-    const operationClicked = e.target.innerText;
-    if (displayStatement.innerText === '' && displayValue.innerText === '0') return;
-    displayStatement.innerText = displayValue.innerText;
-    clearInput();
-    displayStatement.innerText += operationClicked;
+function parseFloatValues(calcString) {
+    const operators = ['+', '-', 'x', '÷']
+
+    for (let i = 0; i < operators.length; i++) {
+        const operatorToTry = operators[i]
+        const operationParts = calcString.split(operatorToTry)
+
+        if (operationParts.length > 1) {
+            return {
+                operation: operatorToTry,
+                a: parseFloat(operationParts[0]),
+                b: parseFloat(operationParts[1])
+            }
+        }
+    }
 }
 
-equalBtn.addEventListener('click', (e) => {
-    const equal = e.target.innerText;
-    // operate();
-})
+function operationSelected(e) {
+    let operationClicked = e.target.innerText;
+    if (displayStatement.innerText === '' && displayValue.innerText === '0') return;
+    displayStatement.innerText += displayValue.innerText;
+    defaultValue = '0';
+    displayValue.innerText = defaultValue;
+    displayStatement.innerText += operationClicked;
+
+    const { operation, a, b } = parseFloatValues(displayStatement.innerText);
+
+    if (operationClicked === '=') {
+        operate(operation, a, b);
+    }
+}
 
 function operate(operatorSign, a, b) {
     if (operatorSign === '+') {
         return add(a, b);
     } else if (operatorSign === '-') {
         return subtract(a, b);
-    } else if (operatorSign == '×') {
+    } else if (operatorSign === 'x') {
         return multiply(a, b);
-    } else if (operatorSign == '÷') {
+    } else if (operatorSign === '÷') {
         return divide(a, b);
     }
 }
 
 function add(a, b) {
-    displayStatement.style.color = 'black';
     displayStatement.innerText = `${a} + ${b}`;
     displayValue.innerText = a + b;
-    return displayStatement.innerText;
+    return displayValue.innerText;
 }
 
 function subtract(a, b) {
-    displayStatement.style.color = 'black';
     displayStatement.innerText = `${a} - ${b}`;
     displayValue.innerText = a - b;
-    return displayStatement.innerText;
+    return displayValue.innerText;
 }
 
 function multiply(a, b) {
-    displayStatement.style.color = 'black';
-    displayStatement.innerText = `${a} × ${b}`;
+    displayStatement.innerText = `${a} x ${b}`;
     displayValue.innerText = a * b;
-    return displayStatement.innerText;
+    return displayValue.innerTex;
 }
 
 function divide(a, b) {
-    displayStatement.style.color = 'black';
     displayStatement.innerText = `${a} ÷ ${b}`;
     displayValue.innerText = a / b;
-    return displayStatement.innerText;
+    return displayValue.innerText;
 }
 
 clearBtn.addEventListener('click', reset);
@@ -100,9 +112,11 @@ function reset() {
     defaultValue = '0';
 }
 
-clearEntryBtn.addEventListener('click', clearInput);
+backspaceBtn.addEventListener('click', undo);
 
-function clearInput() {
-    displayValue.innerText = '0';
-    defaultValue = '0';
+function undo() {
+    if (defaultValue !== '0') {
+        defaultValue = defaultValue.slice(0, -1);
+        displayValue.innerText = defaultValue;
+    }
 }

@@ -32,8 +32,16 @@ body {
     padding: 15px 0;
 }
 
-button {
+.one {
     width: 55px;
+    height: 55px;
+    font-size: large;
+    border: none;
+    cursor: pointer;
+}
+
+.two {
+    width: 130px;
     height: 55px;
     font-size: large;
     border: none;
