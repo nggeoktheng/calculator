@@ -101,6 +101,9 @@ function multiply(a, b) {
 function divide(a, b) {
     displayStatement.innerText = `${a} ÷ ${b}`;
     displayValue.innerText = a / b;
+    if (displayValue.innerText === 'Infinity') {
+        displayValue.innerText = 'ERROR';
+    }  
     return displayValue.innerText;
 }
 
