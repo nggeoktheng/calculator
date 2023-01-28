@@ -27,7 +27,7 @@ negativeBtn.addEventListener('click', () => {
     if (defaultValue === '0') {
         defaultValue = '';
         defaultValue = '-' + defaultValue;
-    } else if (defaultValue !== '0') {
+    } else {
         let newValue = '';
         newValue = '-' + defaultValue;
         displayValue.innerText = newValue;

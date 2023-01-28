@@ -78,3 +78,9 @@ button:hover {
     height: 44px;
     overflow: hidden;
 }
+
+.preventSelect {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
