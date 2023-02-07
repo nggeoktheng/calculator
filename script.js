@@ -13,8 +13,6 @@ let operator = '';
 
 numbersBtn.forEach(number => number.addEventListener("click", function(e){
     let numberClicked = e.target.innerText;
-
-    if (currentValue === '0' && numberClicked === '0') return;
     
     if (currentValue === '0') {
         currentValue = '';
@@ -25,8 +23,10 @@ numbersBtn.forEach(number => number.addEventListener("click", function(e){
 
     if (currentValue.includes('.') && numberClicked === '.') return;
     
-    currentValue += numberClicked;
-    displayValue.innerText = currentValue;
+    if (currentValue.length <= 10) {
+        currentValue += numberClicked;
+        displayValue.innerText = currentValue;
+    }
 }))
 
 operationsBtn.forEach(operation => operation.addEventListener("click", function(e){
@@ -39,6 +39,48 @@ operationsBtn.forEach(operation => operation.addEventListener("click", function(
     displayStatement.innerText = previousValue + " " + operator;
     displayValue.innerText = currentValue;
 }))
+
+equalBtn.addEventListener("click", function(){
+    if (currentValue !== '' && previousValue !== '') {
+        calculating();
+    }
+})
+
+function calculating() {
+    currentValue = parseFloat(currentValue);
+    previousValue = parseFloat(previousValue);
+
+    if (operator === '+') {
+        previousValue += currentValue;
+    } else if (operator === '-') {
+        previousValue -= currentValue;
+    } else if (operator === 'x') {
+        previousValue *= currentValue;
+    } else if (operator === '÷') {
+        previousValue /= currentValue;
+        if (currentValue === 0) {
+            previousValue = 'ERROR';
+            displayStatement.innerText = '';
+            displayValue.innerText = previousValue;
+            return;
+        }
+    }
+
+    previousValue = rounding(previousValue);
+    currentValue = currentValue.toString();
+    previousValue = previousValue.toString();
+
+    if (previousValue.length <= 13) {
+        displayStatement.innerText = '';
+        displayValue.innerText = previousValue;
+    } else {
+        displayValue.innerText = previousValue.slice(0, 13) + '...';
+    }
+}
+
+function rounding(num) {
+    return Math.round(num * 1000) / 1000;
+}
 
 clearBtn.addEventListener("click", function(){
     previousValue = '';
@@ -66,5 +108,11 @@ negativeBtn.addEventListener("click", function(e){
 })
 
 backspaceBtn.addEventListener("click", function(){
-    
+    currentValue = currentValue.slice(0, -1);
+    displayValue.innerText = currentValue;
+
+    if (currentValue === '') {
+        currentValue = '0';
+        displayValue.innerText = currentValue;
+    }
 })
