@@ -8,17 +8,21 @@ const numbersBtn = document.querySelectorAll('.number');
 const operationsBtn = document.querySelectorAll('.operation');
 
 let previousValue = '';
-let currentValue = '0';
+let currentValue = '';
 let operator = '';
 
-numbersBtn.forEach(number => number.addEventListener("click", function(e){
+numbersBtn.forEach(number => number.addEventListener("click", (e) => {
     let numberClicked = e.target.innerText;
-    
+
     if (currentValue === '0') {
         currentValue = '';
         if (numberClicked === '.') {
             currentValue = '0.';
         }
+    }
+    
+    if (numberClicked === '.') {
+        currentValue = '0.';
     }
 
     if (currentValue.includes('.') && numberClicked === '.') return;
@@ -29,20 +33,25 @@ numbersBtn.forEach(number => number.addEventListener("click", function(e){
     }
 }))
 
-operationsBtn.forEach(operation => operation.addEventListener("click", function(e){
+operationsBtn.forEach(operation => operation.addEventListener("click", (e) => {
     let operationClicked = e.target.innerText;
 
-    previousValue = currentValue;
-    currentValue = '0';
-    operator = operationClicked;
+    if (currentValue === '') return;
+    if (previousValue !== '') {
+        calculating();
+    }
+        previousValue = currentValue;
+        currentValue = '0';
+        operator = operationClicked;
 
-    displayStatement.innerText = previousValue + " " + operator;
-    displayValue.innerText = currentValue;
+        displayStatement.innerText = previousValue + " " + operator;
+        displayValue.innerText = currentValue;
 }))
 
-equalBtn.addEventListener("click", function(){
+equalBtn.addEventListener("click", () => {
     if (currentValue !== '' && previousValue !== '') {
         calculating();
+        displayStatement.innerText = '';
     }
 })
 
@@ -57,13 +66,12 @@ function calculating() {
     } else if (operator === 'x') {
         previousValue *= currentValue;
     } else if (operator === '÷') {
-        previousValue /= currentValue;
         if (currentValue === 0) {
             previousValue = 'ERROR';
-            displayStatement.innerText = '';
             displayValue.innerText = previousValue;
             return;
         }
+        previousValue /= currentValue;
     }
 
     previousValue = rounding(previousValue);
@@ -71,7 +79,6 @@ function calculating() {
     previousValue = previousValue.toString();
 
     if (previousValue.length <= 13) {
-        displayStatement.innerText = '';
         displayValue.innerText = previousValue;
     } else {
         displayValue.innerText = previousValue.slice(0, 13) + '...';
@@ -82,16 +89,18 @@ function rounding(num) {
     return Math.round(num * 1000) / 1000;
 }
 
-clearBtn.addEventListener("click", function(){
+clearBtn.addEventListener("click", clearing)
+
+function clearing() {
     previousValue = '';
     currentValue = '0';
     operator = '';
     
     displayValue.innerText = currentValue;
     displayStatement.innerText = previousValue;
-})
+}
 
-negativeBtn.addEventListener("click", function(e){
+negativeBtn.addEventListener("click", (e) => {
     let negativeClicked = e.target.innerText;
     negativeClicked = '-';
 
@@ -107,7 +116,9 @@ negativeBtn.addEventListener("click", function(e){
     }
 })
 
-backspaceBtn.addEventListener("click", function(){
+backspaceBtn.addEventListener("click", deleting)
+
+function deleting() {
     currentValue = currentValue.slice(0, -1);
     displayValue.innerText = currentValue;
 
@@ -115,4 +126,4 @@ backspaceBtn.addEventListener("click", function(){
         currentValue = '0';
         displayValue.innerText = currentValue;
     }
-})
+}
