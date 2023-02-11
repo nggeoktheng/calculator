@@ -43,10 +43,15 @@ operationsBtn.forEach(operation => operation.addEventListener("click", (e) => {
     })
 
     if (currentValue !== '' && previousValue !== '') {
-        console.log('****** HMMMM SHOULD I CALCULATE????')
         calculating();
-        displayStatement.innerText = previousValue + " " + operationClicked;
+        currentValue = '0';
+        operator = operationClicked;
+        displayStatement.innerText = previousValue + " " + operator;
         displayValue.innerText = "0";
+
+        console.log('****** HMMMM SHOULD I CALCULATE????', {
+            previousValue, currentValue, operator
+        })
         return
     }
 
@@ -54,7 +59,7 @@ operationsBtn.forEach(operation => operation.addEventListener("click", (e) => {
     if (previousValue !== '') {
         calculating();
     }
-    
+
     previousValue = currentValue;
     currentValue = '0';
     operator = operationClicked;
