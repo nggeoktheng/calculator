@@ -36,16 +36,31 @@ numbersBtn.forEach(number => number.addEventListener("click", (e) => {
 operationsBtn.forEach(operation => operation.addEventListener("click", (e) => {
     let operationClicked = e.target.innerText;
 
+    console.log('******************** OPERATION LICKEEDDDDDD', {
+        operationClicked,
+        currentValue,
+        previousValue
+    })
+
+    if (currentValue !== '' && previousValue !== '') {
+        console.log('****** HMMMM SHOULD I CALCULATE????')
+        calculating();
+        displayStatement.innerText = previousValue + " " + operationClicked;
+        displayValue.innerText = "0";
+        return
+    }
+
     if (currentValue === '') return;
     if (previousValue !== '') {
         calculating();
     }
-        previousValue = currentValue;
-        currentValue = '0';
-        operator = operationClicked;
+    
+    previousValue = currentValue;
+    currentValue = '0';
+    operator = operationClicked;
 
-        displayStatement.innerText = previousValue + " " + operator;
-        displayValue.innerText = currentValue;
+    displayStatement.innerText = previousValue + " " + operator;
+    displayValue.innerText = currentValue;
 }))
 
 equalBtn.addEventListener("click", () => {
