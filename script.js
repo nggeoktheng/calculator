@@ -13,16 +13,18 @@ let operator = '';
 
 numbersBtn.forEach(number => number.addEventListener("click", (e) => {
     let numberClicked = e.target.innerText;
+    
+    if (currentValue === '') {
+        if (numberClicked === '.') {
+            currentValue += '0.';
+        }
+    } 
 
     if (currentValue === '0') {
-        currentValue = '';
+        currentValue = ''
         if (numberClicked === '.') {
-            currentValue = '0.';
+            currentValue += '0.';
         }
-    }
-    
-    if (numberClicked === '.') {
-        currentValue = '0.';
     }
 
     if (currentValue.includes('.') && numberClicked === '.') return;
@@ -36,16 +38,18 @@ numbersBtn.forEach(number => number.addEventListener("click", (e) => {
 operationsBtn.forEach(operation => operation.addEventListener("click", (e) => {
     let operationClicked = e.target.innerText;
 
-    if (currentValue === '') return;
-    if (previousValue !== '') {
-        calculating();
-    }
-        previousValue = currentValue;
-        currentValue = '0';
+    if (currentValue !== '') {
+        if (previousValue !== '') {
+            calculating();
+        } else {
+            previousValue = currentValue;
+        }
         operator = operationClicked;
+        currentValue = '0';
 
         displayStatement.innerText = previousValue + " " + operator;
         displayValue.innerText = currentValue;
+    }
 }))
 
 equalBtn.addEventListener("click", () => {
