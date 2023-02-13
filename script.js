@@ -14,22 +14,22 @@ let operator = '';
 numbersBtn.forEach(number => number.addEventListener("click", (e) => {
     let numberClicked = e.target.innerText;
     
-    if (currentValue === '') {
-        if (numberClicked === '.') {
-            currentValue += '0.';
-        }
-    } 
-
-    if (currentValue === '0') {
-        currentValue = ''
-        if (numberClicked === '.') {
-            currentValue += '0.';
-        }
-    }
-
-    if (currentValue.includes('.') && numberClicked === '.') return;
+    if (currentValue.length <= 13) {
+        if (currentValue === '') {
+            if (numberClicked === '.') {
+                currentValue += '0.';
+            }
+        } 
     
-    if (currentValue.length <= 10) {
+        if (currentValue === '0') {
+            currentValue = ''
+            if (numberClicked === '.') {
+                currentValue += '0.';
+            }
+        }
+    
+        if (currentValue.includes('.') && numberClicked === '.') return;
+
         currentValue += numberClicked;
         displayValue.innerText = currentValue;
     }
@@ -38,12 +38,18 @@ numbersBtn.forEach(number => number.addEventListener("click", (e) => {
 operationsBtn.forEach(operation => operation.addEventListener("click", (e) => {
     let operationClicked = e.target.innerText;
 
-    if (currentValue !== '') {
-        if (previousValue !== '') {
-            calculating();
-        } else {
-            previousValue = currentValue;
-        }
+    if (currentValue !== '' && previousValue !== '') {
+        calculating();
+        operator = operationClicked;
+        currentValue = '0';
+
+        displayStatement.innerText = previousValue + " " + operator;
+        displayValue.innerText = currentValue;
+        return;
+    }
+
+    if (currentValue !== '' && previousValue === '') {
+        previousValue = currentValue;
         operator = operationClicked;
         currentValue = '0';
 
@@ -56,6 +62,11 @@ equalBtn.addEventListener("click", () => {
     if (currentValue !== '' && previousValue !== '') {
         calculating();
         displayStatement.innerText = '';
+        if (previousValue.length <= 13) {
+            displayValue.innerText = previousValue;
+        } else {
+            displayValue.innerText = previousValue.slice(0, 13) + '...';
+        }
     }
 })
 
@@ -81,12 +92,6 @@ function calculating() {
     previousValue = rounding(previousValue);
     currentValue = currentValue.toString();
     previousValue = previousValue.toString();
-
-    if (previousValue.length <= 13) {
-        displayValue.innerText = previousValue;
-    } else {
-        displayValue.innerText = previousValue.slice(0, 13) + '...';
-    }
 }
 
 function rounding(num) {
